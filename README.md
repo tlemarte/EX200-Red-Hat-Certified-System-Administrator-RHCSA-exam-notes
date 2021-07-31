@@ -3,12 +3,75 @@
 ## Access a shell prompt and issue commands with correct syntax
 
 ## Use input-output redirection (>, >> , | , >2, etc.)
-
 * The '>' symbol is used for output (STDOUT) redirection. Overwrites the output to a specified destination
-* The ‘>>’ symbol is also for output redirection. Appends output to a destination .
+```
+[tlemarte@bluebox ~]$ hostnamectl > file.txt
+[tlemarte@bluebox ~]$ cat file.txt 
+ Static hostname: bluebox
+ Pretty hostname: BlueBox
+       Icon name: computer-laptop
+         Chassis: laptop
+      Machine ID: 123..890
+         Boot ID: 123..890
+Operating System: Fedora 34 (Workstation Edition)
+     CPE OS Name: cpe:/o:fedoraproject:fedora:34
+          Kernel: Linux 5.13.4-200.fc34.x86_64
+    Architecture: x86-64
+ Hardware Vendor: ..
+  Hardware Model: ThinkPad L480
+```
+* The ‘>>’ symbol is also for output redirection. Appends output to a destination 
+```
+[tlemarte@bluebox ~]$ grep '^VERSION' /etc/os-release >> file.txt
+[tlemarte@bluebox ~]$ cat file.txt 
+ Static hostname: bluebox
+ Pretty hostname: BlueBox
+       Icon name: computer-laptop
+         Chassis: laptop
+      Machine ID: 123..890
+         Boot ID: 123..890
+Operating System: Fedora 34 (Workstation Edition)
+     CPE OS Name: cpe:/o:fedoraproject:fedora:34
+          Kernel: Linux 5.13.4-200.fc34.x86_64
+    Architecture: x86-64
+ Hardware Vendor: ..
+  Hardware Model: ThinkPad L480
+VERSION="34 (Workstation Edition)"
+VERSION_ID=34
+VERSION_CODENAME=""
+```
+* noclobber can be enabled to prevent accidental overwrites of files with output redirection. This can then be bypassed using the pipe character for an extra layer of safety when modifying files using output redirection.
+```
+[tlemarte@bluebox ~]$ set -o noclobber 
+[tlemarte@bluebox ~]$ set -o | grep noclobber
+noclobber      	on
+[tlemarte@bluebox ~]$ date > file.txt 
+bash: file.txt: cannot overwrite existing file
+[tlemarte@bluebox ~]$ date >| file.txt 
+[tlemarte@bluebox ~]$ cat file.txt 
+Thu Jul 29 12:58:49 PM PDT 2021
+```
 * | (pipe) : Connect output of one command to input of another
+named pipes
 * \>2 : Outputs STDERROR
 * &> : outputs STDOUT and STDERROR
+* < : STIN redirects an file or output as input to another command.
+```
+[tlemarte@bluebox ~]$ df -hlT >| file.txt
+[tlemarte@bluebox ~]$ cat < file.txt 
+Filesystem     Type      Size  Used Avail Use% Mounted on
+devtmpfs       devtmpfs  7.8G     0  7.8G   0% /dev
+tmpfs          tmpfs     7.8G   25M  7.8G   1% /dev/shm
+tmpfs          tmpfs     3.2G  2.0M  3.2G   1% /run
+/dev/sda3      btrfs     237G  6.1G  231G   3% /
+/dev/sda3      btrfs     237G  6.1G  231G   3% /home
+/dev/sda2      ext4      976M  238M  672M  27% /boot
+/dev/sda1      vfat      599M   17M  583M   3% /boot/efi
+tmpfs          tmpfs     7.8G   17M  7.8G   1% /tmp
+tmpfs          tmpfs     1.6G  160K  1.6G   1% /run/user/1000
+```
+HERE documents
+tee
 * $(...) : Uses the output of another command. Commands between the parenthesis are evaluated first, then passed into other commands.
 * !$ : Uses your last used argument
 
