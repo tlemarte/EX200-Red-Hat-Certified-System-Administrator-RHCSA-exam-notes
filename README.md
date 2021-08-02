@@ -142,22 +142,20 @@ root
 [tlemarte@Centos ~]$ ls -lh
 -rw-rw-r--. 1 tlemarte tlemarte  14K Jul 23 19:58 file
 -rw-rw-r--. 1 tlemarte tlemarte 4.1K Jul 23 20:42 file.gz
-
-# or
-
+```
+```
 [tlemarte@Centos ~]$ bzip2 file
 [tlemarte@Centos ~]$ ls -lh
 -rw-rw-r--. 1 tlemarte tlemarte  14K Jul 23 19:58 file
 -rw-rw-r--. 1 tlemarte tlemarte 3.2K Jul 23 20:42 file.bz2
-
-# or
-
-[tlemarte@Centos ~]$ tar -czvf file.tgz file
+````
+```
+[tlemarte@Centos ~]$ tar -czf file.tgz file
+#Remember "Create Zipped File/Folder". Tar archives then compresses using gzip
 [tlemarte@Centos ~]$ ls -lh
 -rw-rw-r--. 1 tlemarte tlemarte  14K Jul 23 19:58 file
 -rw-rw-r--. 1 tlemarte tlemarte 4.3K Jul 23 20:45 file.tgz
 ```
-
 * Archive command: You can user tar and star to archive files. Star supports extended attributes like SELinux contexts on older systems.
 
 ```
@@ -173,7 +171,8 @@ star: 2 blocks + 0 bytes (total of 20480 bytes = 20.00k).
 ```
 [tlemarte@Centos ~]$ gunzip file.gz
 [tlemarte@Centos ~]$ bunzip2 file.bz2
-[tlemarte@Centos ~]$ tar file.tgz
+[tlemarte@Centos ~]$ tar -xzf file.tgz
+#Remember "eXtract Zipped File/Folder". Uncompresses using gzip
 [tlemarte@Centos ~]$ ls -lh
 total 16K
 -rw-rw-r--. 1 tlemarte tlemarte 14K Jul 23 19:58 lorem-ipsum
